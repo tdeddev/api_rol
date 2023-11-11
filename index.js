@@ -14,6 +14,60 @@ app.get('/', (req, res) => {
     res.send('This is my API running...')
 })
 
+app.get('/get_all/:price', async (req, res) => {
+    try {
+        let response = await axios.get(`${BASE_URL_ALL}`)
+        let price = req.params.price
+        let data = response.data
+        let list = []
+        if(data.length == 0){
+            throw {
+                msg : 'ไม่พบข้อมูล',
+                code : 100
+            }
+        }
+        for(let i = 0; i < data.length; i++){
+            if(data[i].nft.refine == 7 && !!data[i].nft.option0Text && data[i].price <= price){
+                let obj = {
+                    img : `${BASE_URL_Img}${data[i].nft.nameid}.png&w=256&q=75`,
+                    name : data[i].nft.nameEnglish,
+                    price : Number(data[i].price),
+                    option1 : data[i].nft.option0Text,
+                    option2 : data[i].nft.option1Text,
+                    option3 : data[i].nft.option2Text,
+                    option4 : data[i].nft.option3Text,
+                    option5 : data[i].nft.option4Text,
+                    url : `${buy_url}${data[i].id}`
+                }
+                if(!!data[i].nft.card0Name){
+                    obj.card1 = data[i].nft.card0Name
+                }
+                if(!!data[i].nft.card1Name){
+                    obj.card1 = data[i].nft.card1Name
+                }
+                if(!!data[i].nft.card2Name){
+                    obj.card1 = data[i].nft.card2Name
+                }
+                list.push(obj)
+            }
+        }
+        if(list.length == 0){
+            return res.send({
+                msg : 'OK',
+                data : 'Not found'
+            })
+        }
+        let sort = list.sort((a,b) => {
+            return a.price - b.price
+        })
+        res.send({
+            msg : 'OK',
+            data : sort
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 app.get('/get_headgear/:price', async (req, res) => {
     try {
         let response = await axios.get(`${BASE_URL}`)
@@ -85,6 +139,15 @@ app.get('/get_weapon/:price', async (req, res) => {
                     option5 : data[i].nft.option4Text,
                     url : `${buy_url}${data[i].id}`
                 }
+                if(!!data[i].nft.card0Name){
+                    obj.card1 = data[i].nft.card0Name
+                }
+                if(!!data[i].nft.card1Name){
+                    obj.card1 = data[i].nft.card1Name
+                }
+                if(!!data[i].nft.card2Name){
+                    obj.card1 = data[i].nft.card2Name
+                }
                 list.push(obj)
             }
         }
@@ -105,6 +168,7 @@ app.get('/get_weapon/:price', async (req, res) => {
         console.log(error)
     }
 })
+
 
 //start server
 app.listen(port, () => console.log(`App on port ${port}`))
