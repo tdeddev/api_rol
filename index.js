@@ -39,15 +39,15 @@ app.get('/get_all/:price', async (req, res) => {
                     option5 : data[i].nft.option4Text,
                     url : `${buy_url}${data[i].id}`
                 }
-                if(!!data[i].nft.card0Name){
-                    obj.card1 = data[i].nft.card0Name
-                }
-                if(!!data[i].nft.card1Name){
-                    obj.card1 = data[i].nft.card1Name
-                }
-                if(!!data[i].nft.card2Name){
-                    obj.card1 = data[i].nft.card2Name
-                }
+                // if(!!data[i].nft.card0Name){
+                //     obj.card1 = data[i].nft.card0Name
+                // }
+                // if(!!data[i].nft.card1Name){
+                //     obj.card1 = data[i].nft.card1Name
+                // }
+                // if(!!data[i].nft.card2Name){
+                //     obj.card1 = data[i].nft.card2Name
+                // }
                 list.push(obj)
             }
         }
@@ -139,15 +139,15 @@ app.get('/get_weapon/:price', async (req, res) => {
                     option5 : data[i].nft.option4Text,
                     url : `${buy_url}${data[i].id}`
                 }
-                if(!!data[i].nft.card0Name){
-                    obj.card1 = data[i].nft.card0Name
-                }
-                if(!!data[i].nft.card1Name){
-                    obj.card1 = data[i].nft.card1Name
-                }
-                if(!!data[i].nft.card2Name){
-                    obj.card1 = data[i].nft.card2Name
-                }
+                // if(!!data[i].nft.card0Name){
+                //     obj.card1 = data[i].nft.card0Name
+                // }
+                // if(!!data[i].nft.card1Name){
+                //     obj.card1 = data[i].nft.card1Name
+                // }
+                // if(!!data[i].nft.card2Name){
+                //     obj.card1 = data[i].nft.card2Name
+                // }
                 list.push(obj)
             }
         }
