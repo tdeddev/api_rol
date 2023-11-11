@@ -14,10 +14,12 @@ app.get('/', (req, res) => {
 
 app.get('/get_headgear', async (req, res) => {
     let response = await axios.get(`${BASE_URL}`)
+    let request = req.body
+    let price = request.price || 500
     let data = response.data
     let list = []
     for(let i = 0; i < data.length; i++){
-        if(data[i].nft.refine == 7 && data[i].price <= 100){
+        if(data[i].nft.refine == 7 && data[i].price <= price){
             let obj = {
                 img : `${BASE_URL_Img}${data[i].nft.nameid}.png&w=256&q=75`,
                 name : data[i].nft.nameEnglish,
@@ -40,5 +42,6 @@ app.get('/get_headgear', async (req, res) => {
         data : sort
     })
 })
+
 
 module.exports = app
