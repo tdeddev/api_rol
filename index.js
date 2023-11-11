@@ -14,33 +14,50 @@ app.get('/', (req, res) => {
 })
 
 app.get('/get_headgear/:price', async (req, res) => {
-    let response = await axios.get(`${BASE_URL}`)
-    let price = req.params.price || 500
-    let data = response.data
-    let list = []
-    for(let i = 0; i < data.length; i++){
-        if(data[i].nft.refine == 7 && data[i].price <= price){
-            let obj = {
-                img : `${BASE_URL_Img}${data[i].nft.nameid}.png&w=256&q=75`,
-                name : data[i].nft.nameEnglish,
-                price : Number(data[i].price),
-                option1 : data[i].nft.option0Text,
-                option2 : data[i].nft.option1Text,
-                option3 : data[i].nft.option2Text.replace('+', ''),
-                option4 : data[i].nft.option3Text.replace('+', ''),
-                option5 : data[i].nft.option4Text.replace('+', ''),
-                url : `${buy_url}${data[i].id}`
+    try {
+        let response = await axios.get(`${BASE_URL}`)
+        let price = req.params.price
+        let data = response.data
+        let list = []
+        console.log(data.length)
+        if(data.length == 0){
+            throw {
+                msg : 'ไม่พบข้อมูล',
+                code : 100
             }
-            list.push(obj)
         }
+        for(let i = 0; i < data.length; i++){
+            if(data[i].nft.refine == 7 && data[i].price <= price){
+                let obj = {
+                    img : `${BASE_URL_Img}${data[i].nft.nameid}.png&w=256&q=75`,
+                    name : data[i].nft.nameEnglish,
+                    price : Number(data[i].price),
+                    option1 : data[i].nft.option0Text,
+                    option2 : data[i].nft.option1Text,
+                    option3 : data[i].nft.option2Text,
+                    option4 : data[i].nft.option3Text,
+                    option5 : data[i].nft.option4Text,
+                    url : `${buy_url}${data[i].id}`
+                }
+                list.push(obj)
+            }
+        }
+        if(list.length == 0){
+            return res.send({
+                msg : 'OK',
+                data : 'Not found'
+            })
+        }
+        let sort = list.sort((a,b) => {
+            return a.price - b.price
+        })
+        res.send({
+            msg : 'OK',
+            data : sort
+        })
+    } catch (error) {
+        console.log(error)
     }
-    let sort = list.sort((a,b) => {
-        return a.price - b.price
-    })
-    res.send({
-        msg : 'OK',
-        data : sort
-    })
 })
 
 
