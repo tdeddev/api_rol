@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.send('This is my API running...')
 })
 
-app.get('/get_headgear', async (req, res) => {
+app.post('/get_headgear', async (req, res) => {
     let response = await axios.get(`${BASE_URL}`)
     let request = req.body
     let price = request.price || 500
