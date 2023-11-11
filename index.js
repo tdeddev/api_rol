@@ -6,20 +6,16 @@ const BASE_URL = 'https://apps.maxion.gg/api/market/list?status=LISTING&category
 const buy_url = 'https://apps.maxion.gg/roverse/detail/'
 const BASE_URL_Img = 'https://apps.maxion.gg/_next/image?url=https%3A%2F%2Frop2e-collection-cdn.s3-bkk.nipa.cloud%2F'
 const cors = require('cors')
-const corsOption = {
-    origin : 'https://front-market-alpha.vercel.app/',
-    credentials : true
-}
-app.listen(port, () => console.log(`App Listening on ${port}`))
 
+app.listen(port, () => console.log(`App Listening on ${port}`))
+app.use(cors())
 app.get('/', (req, res) => {
     res.send('This is my API running...')
 })
 
-app.post('/get_headgear', cors(corsOption), async (req, res) => {
+app.get('/get_headgear/:price', async (req, res) => {
     let response = await axios.get(`${BASE_URL}`)
-    let request = req.body
-    let price = request.price || 500
+    let price = req.params.price || 500
     let data = response.data
     let list = []
     for(let i = 0; i < data.length; i++){
