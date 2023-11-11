@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 const bodyparser = require('body-parser')
 const axios = require('axios')
 // global var
@@ -9,7 +8,6 @@ const BASE_URL = 'https://apps.maxion.gg/api/market/list?status=LISTING&category
 const buy_url = 'https://apps.maxion.gg/roverse/detail/'
 // Middle ware
 app.use(bodyparser.json())
-app.use(cors())
 //router
 app.get('/', (req, res) => {
     res.send('Hello server')
